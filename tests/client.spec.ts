@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Client, { IPropsClient } from '../api/domain/entities/Client'
+import Client, { IPropsClient } from '../api/domain/entitees/Client'
 import ErreurDomaine from '../api/domain/ErreurDomaine'
 
 describe('CLIENT', () => {
