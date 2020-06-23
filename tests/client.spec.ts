@@ -1,29 +1,38 @@
-import { expect } from "chai"
+import { expect } from 'chai'
+import Client, { IPropsClient } from '../api/domain/entities/Client'
+import ErreurDomaine from '../api/domain/ErreurDomaine'
 
-class Client {
-  constructor() {
-    throw new ErreurDomaine('Il y a eu une erreur')
+describe('CLIENT', () => {
+  let client: Client | undefined
+  let erreurDomaine: ErreurDomaine | undefined
+  const propsClient: IPropsClient = {
+    referenceAbonnement: 'abonnement1',
+    nom: 'Michel Dupont',
+    sexe: 'homme',
+    dateDeNaissance: new Date(1997, 10, 24),
+    adresseMail: 'michel.dupont@mail.com',
+    estEtudiant: true
   }
-}
-
-class ErreurDomaine extends Error {
-  constructor(public readonly message: string) {
-    super(message)
-  }
-}
-
-describe('un nouveau client', () => {
-  describe(`avec un type d'abonnement, un nom, un sexe, une date de naissance, une adresse mail et un numéro de téléphone`, () => {
+  describe(`avec un type d'abonnement, un nom, un sexe, une date de naissance, une adresse mail et un boolean indiquant si le client est étudiant`, () => {
     it('instancie le nouveau client', () => {
-      let client: Client | undefined
-      let erreur: ErreurDomaine | undefined
       try {
-        client = new Client()
+        client = new Client(propsClient)
       } catch (err) {
-        erreur = err
+        erreurDomaine = err
       }
       expect(client).to.exist
-      expect(erreur).to.be.undefined
+      expect(erreurDomaine).to.be.undefined
+    })
+  })
+  describe(`sans type d'abonnement`, () => {
+    it('renvoie une erreur: abonnement requis', () => {
+      delete propsClient.referenceAbonnement
+      try {
+        client = new Client(propsClient)
+      } catch (err) {
+        erreurDomaine = err
+      }
+      expect(erreurDomaine?.message).to.eq(`Une référence d'abonnement est requise.`)
     })
   })
 })
