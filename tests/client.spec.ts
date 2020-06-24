@@ -1,12 +1,13 @@
 import { expect } from 'chai'
-import Client, { IPropsClient } from '../api/domain/entitees/Client'
-import ErreurDomaine from '../api/domain/ErreurDomaine'
+import Client, { IPropsClient } from '../api/domaine/entitees/Client'
+import ErreurDomaine from '../api/domaine/ErreurDomaine'
 
-describe('CLIENT', () => {
+describe('DOMAINE | Client', () => {
   let client: Client | undefined
   let erreurDomaine: ErreurDomaine | undefined
   let propsClient: IPropsClient
   beforeEach(() => {
+    erreurDomaine = undefined
     propsClient = {
       referenceAbonnement: 'abonnement1',
       nom: 'Michel Dupont',
