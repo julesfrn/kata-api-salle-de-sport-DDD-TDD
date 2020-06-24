@@ -5,14 +5,17 @@ import ErreurDomaine from '../api/domain/ErreurDomaine'
 describe('CLIENT', () => {
   let client: Client | undefined
   let erreurDomaine: ErreurDomaine | undefined
-  const propsClient: IPropsClient = {
-    referenceAbonnement: 'abonnement1',
-    nom: 'Michel Dupont',
-    sexe: 'homme',
-    dateDeNaissance: new Date(1997, 10, 24),
-    adresseMail: 'michel.dupont@mail.com',
-    estEtudiant: true
-  }
+  let propsClient: IPropsClient
+  beforeEach(() => {
+    propsClient = {
+      referenceAbonnement: 'abonnement1',
+      nom: 'Michel Dupont',
+      sexe: 'homme',
+      dateDeNaissance: new Date(1997, 10, 24),
+      adresseMail: 'michel.dupont@mail.com',
+      estEtudiant: true
+    }
+  })
   describe(`avec un type d'abonnement, un nom, un sexe, une date de naissance, une adresse mail et un boolean indiquant si le client est étudiant`, () => {
     it('instancie le nouveau client', () => {
       try {
@@ -32,7 +35,18 @@ describe('CLIENT', () => {
       } catch (err) {
         erreurDomaine = err
       }
-      expect(erreurDomaine?.message).to.eq(`Une référence d'abonnement est requise.`)
+      expect(erreurDomaine?.message).to.eq(`Une référence d'abonnement est requise`)
+    })
+  })
+  describe('sans nom', () => {
+    it('renvoie une erreur: nom requis', () => {
+      delete propsClient.nom
+      try {
+        client = new Client(propsClient)
+      } catch (err) {
+        erreurDomaine = err
+      }
+      expect(erreurDomaine?.message).to.eq(`Un nom est requis`)
     })
   })
 })

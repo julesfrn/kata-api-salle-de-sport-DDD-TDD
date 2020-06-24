@@ -1,4 +1,5 @@
 import ReferenceAbonnement from "../objet-valeur/reference-abonnement/ReferenceAbonnement"
+import Nom from "../objet-valeur/nom/Nom"
 
 export interface IPropsClient {
   referenceAbonnement: string
@@ -11,7 +12,7 @@ export interface IPropsClient {
 
 export default class Client {
   public readonly referenceAbonnement: ReferenceAbonnement
-  public readonly nom: string
+  public readonly nom: Nom
   public readonly sexe: string
   public readonly dateDeNaissance: Date
   public readonly adresseMail: string
@@ -19,7 +20,7 @@ export default class Client {
 
   constructor(props: IPropsClient) {
     this.referenceAbonnement = new ReferenceAbonnement(props.referenceAbonnement)
-    this.nom = props.nom
+    this.nom = new Nom(props.nom)
     this.sexe = props.sexe
     this.dateDeNaissance = props.dateDeNaissance
     this.adresseMail = props.adresseMail
