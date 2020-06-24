@@ -1,4 +1,4 @@
-import ErreurDomaine from "../../../ErreurDomaine";
+import ErreurDomaine from '../../../ErreurDomaine'
 
 export default class ErreurNomRequis extends ErreurDomaine {
   constructor() {
