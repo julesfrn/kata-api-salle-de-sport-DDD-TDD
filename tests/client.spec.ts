@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import Client, { IPropsClient } from '../api/domaine/entitees/Client'
 import ErreurDomaine from '../api/domaine/ErreurDomaine'
+import Abonnement from '../api/domaine/entitees/Abonnement'
 
 describe('DOMAINE | Client', () => {
   let client: Client | undefined
@@ -9,15 +10,15 @@ describe('DOMAINE | Client', () => {
   beforeEach(() => {
     erreurDomaine = undefined
     propsClient = {
-      referenceAbonnement: 'abonnement1',
       nom: 'Michel Dupont',
       sexe: 'homme',
       dateDeNaissance: new Date(1997, 10, 24),
       adresseMail: 'michel.dupont@mail.com',
-      estEtudiant: true
+      estEtudiant: false,
+      payeALAnnee: false
     }
   })
-  describe(`avec une référence d'abonnement, un nom, un sexe, une date de naissance, une adresse mail et un boolean indiquant si le client est étudiant`, () => {
+  describe(`avec un nom, un sexe, une date de naissance, une adresse mail et un boolean indiquant si le client est étudiant`, () => {
     it('instancie le nouveau client', () => {
       try {
         client = new Client(propsClient)
@@ -26,17 +27,6 @@ describe('DOMAINE | Client', () => {
       }
       expect(client).to.exist
       expect(erreurDomaine).to.be.undefined
-    })
-  })
-  describe(`sans référence d'abonnement`, () => {
-    it('renvoie une erreur: référence abonnement requis', () => {
-      delete propsClient.referenceAbonnement
-      try {
-        client = new Client(propsClient)
-      } catch (err) {
-        erreurDomaine = err
-      }
-      expect(erreurDomaine?.message).to.eq(`Une référence d'abonnement est requise`)
     })
   })
   describe('sans nom', () => {
@@ -127,6 +117,17 @@ describe('DOMAINE | Client', () => {
         erreurDomaine = err
       }
       expect(erreurDomaine?.message).to.eq(`Il est requis d'indiquer si le client est étudiant ou non`)
+    })
+  })
+  describe(`sans boolean indiquant si le client paye a l'année`, () => {
+    it(`renvoie une erreur: information indiquant si le client paye a l'année requise`, () => {
+      delete propsClient.payeALAnnee
+      try {
+        client = new Client(propsClient)
+      } catch (err) {
+        erreurDomaine = err
+      }
+      expect(erreurDomaine?.message).to.eq(`Il est requis d'indiquer si le client paye à l'année ou non`)
     })
   })
 })
