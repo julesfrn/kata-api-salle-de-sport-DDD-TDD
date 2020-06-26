@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import Client, { IPropsClient } from '../api/domaine/entitees/Client'
 import ErreurDomaine from '../api/domaine/ErreurDomaine'
-import Abonnement from '../api/domaine/entitees/Abonnement'
+import Abonnement, { IPropsAbonnement } from '../api/domaine/entitees/Abonnement'
 
 describe('DOMAINE | Client', () => {
   let client: Client | undefined
@@ -15,7 +15,7 @@ describe('DOMAINE | Client', () => {
       dateDeNaissance: new Date(1997, 10, 24),
       adresseMail: 'michel.dupont@mail.com',
       estEtudiant: false,
-      payeALAnnee: false
+      payeALAnnee: false,
     }
   })
   describe(`avec un nom, un sexe, une date de naissance, une adresse mail et un boolean indiquant si le client est étudiant`, () => {
@@ -128,6 +128,74 @@ describe('DOMAINE | Client', () => {
         erreurDomaine = err
       }
       expect(erreurDomaine?.message).to.eq(`Il est requis d'indiquer si le client paye à l'année ou non`)
+    })
+  })
+  describe('associer un abonnement à un client', () => {
+    let abonnement: Abonnement
+    const propsAbonnement: IPropsAbonnement = {
+      reference: 'operation_ete_2020',
+      nom: `Opération corps d'été`,
+      prixMensuel: 45,
+    }
+    describe(`qui paye au mois et qui n'est pas étudiant`, () => {
+      it(`associe un abonnement avec le prix de base de l'abonnement, sa référence et son nom`, () => {
+        client = new Client(propsClient)
+        abonnement = new Abonnement(propsAbonnement)
+        client.associerAbonnement(abonnement)
+        const abonnementAssocieAttendu = {
+          reference: 'operation_ete_2020',
+          nom: `Opération corps d'été`,
+          prix: 45,
+        }
+        expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
+      })
+    })
+    describe(`qui paye à l'année et qui n'est pas étudiant`, () => {
+      it('associe un abonnement avec une réduction de 30% sur le prix mensuel multiplié par 12, sa référence et son nom', () => {
+        propsClient.payeALAnnee = true
+        propsClient.estEtudiant = false
+        client = new Client(propsClient)
+        abonnement = new Abonnement(propsAbonnement)
+        client.associerAbonnement(abonnement)
+        const abonnementAssocieAttendu = {
+          reference: 'operation_ete_2020',
+          nom: `Opération corps d'été`,
+          prix: (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12
+        }
+        expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
+      })
+    })
+    describe(`qui paye au mois et qui est étudiant`, () => {
+      it('associe un abonnement avec une réduction de 20% sur le prix, sa référence et son nom', () => {
+        propsClient.payeALAnnee = false
+        propsClient.estEtudiant = true
+        client = new Client(propsClient)
+        abonnement = new Abonnement(propsAbonnement)
+        client.associerAbonnement(abonnement)
+        const abonnementAssocieAttendu = {
+          reference: 'operation_ete_2020',
+          nom: `Opération corps d'été`,
+          prix: propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.2
+        }
+        expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
+      })
+    })
+    describe(`qui paye a l'annee et qui est étudiant`, () => {
+      it('associe un abonnement avec une réduction de 30% sur le prix mensuel multiplié par 12 puis une réduction de 20% sur ce prix total, sa référence et son nom', () => {
+        propsClient.payeALAnnee = true
+        propsClient.estEtudiant = true
+        client = new Client(propsClient)
+        abonnement = new Abonnement(propsAbonnement)
+        client.associerAbonnement(abonnement)
+        const abonnementAssocieAttendu = {
+          reference: 'operation_ete_2020',
+          nom: `Opération corps d'été`,
+          prix:
+            (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 -
+            (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 * 0.2,
+        }
+        expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
+      })
     })
   })
 })
