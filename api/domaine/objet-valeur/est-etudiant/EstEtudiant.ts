@@ -1,4 +1,5 @@
 import ObjetValeur from '../ObjetValeur'
+
 import ErreurEstEtudiantRequis from './erreurs/ErreurEstEtudiantRequis'
 
 export default class EstEtudiant extends ObjetValeur {

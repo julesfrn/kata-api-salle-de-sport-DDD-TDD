@@ -11,7 +11,7 @@ export interface IPropsAbonnement {
 export default class Abonnement {
   public readonly reference: ReferenceAbonnement
   public readonly nom: Nom
-  public readonly prixMensuel: PrixMensuel
+  public prixMensuel: PrixMensuel
 
   constructor(props: IPropsAbonnement) {
     this.reference = new ReferenceAbonnement(props.reference)
@@ -19,10 +19,14 @@ export default class Abonnement {
     this.prixMensuel = new PrixMensuel(props.prixMensuel)
   }
 
-  recupererLePrixPourUnClientQui(estEtudiant: boolean, payeALAnnee: boolean):number {
+  recupererLePrixPourUnClientQui(estEtudiant: boolean, payeALAnnee: boolean): number {
     let prix = this.prixMensuel.valeur
     if (payeALAnnee) prix = 12 * (prix - prix * 0.3)
-    if (estEtudiant) prix = prix - prix * 0.2
+    if (estEtudiant) prix -= prix * 0.2
     return prix
+  }
+
+  changerLePrix(nouveauPrix: number) {
+    this.prixMensuel = new PrixMensuel(nouveauPrix)
   }
 }

@@ -1,4 +1,5 @@
 import ObjetValeur from '../ObjetValeur'
+
 import ErreurReferenceAbonnementRequise from './erreurs/ErreurReferenceAbonnementRequise'
 
 export default class ReferenceAbonnement extends ObjetValeur {

@@ -1,10 +1,10 @@
-import ReferenceAbonnement from '../objet-valeur/reference-abonnement/ReferenceAbonnement'
 import Nom from '../objet-valeur/nom/Nom'
 import Sexe from '../objet-valeur/sexe/Sexe'
 import DateDeNaissance from '../objet-valeur/date-de-naissance/DateDeNaissance'
 import AdresseMail from '../objet-valeur/adresse-mail/AdresseMail'
 import EstEtudiant from '../objet-valeur/est-etudiant/EstEtudiant'
 import PayeALAnnee from '../objet-valeur/paye-a-l-annee/PayeALAnnee'
+
 import Abonnement from './Abonnement'
 
 export interface IAbonnementClient {

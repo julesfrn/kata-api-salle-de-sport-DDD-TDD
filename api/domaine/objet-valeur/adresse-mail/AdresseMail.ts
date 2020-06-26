@@ -1,4 +1,5 @@
 import ObjetValeur from '../ObjetValeur'
+
 import ErreurAdresseMailRequise from './erreurs/ErreurAdresseMailRequise'
 import ErreurAdresseMailInvalide from './erreurs/ErreurAdresseMailInvalide'
 

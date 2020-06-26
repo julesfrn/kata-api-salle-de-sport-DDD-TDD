@@ -1,3 +1,6 @@
 export default class ErreurDomaine extends Error {
-  constructor(message: string) { super(message) }
+  // eslint-disable-next-line no-useless-constructor
+  constructor(message: string) {
+    super(message)
+  }
 }

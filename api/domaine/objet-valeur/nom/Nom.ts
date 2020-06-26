@@ -1,4 +1,5 @@
 import ObjetValeur from '../ObjetValeur'
+
 import ErreurNomRequis from './erreurs/ErreurNomRequis'
 
 export default class Nom extends ObjetValeur {

@@ -1,4 +1,5 @@
 import { expect } from 'chai'
+
 import Client, { IPropsClient } from '../api/domaine/entitees/Client'
 import ErreurDomaine from '../api/domaine/ErreurDomaine'
 import Abonnement, { IPropsAbonnement } from '../api/domaine/entitees/Abonnement'
@@ -15,7 +16,7 @@ describe('DOMAINE | Client', () => {
       dateDeNaissance: new Date(1997, 10, 24),
       adresseMail: 'michel.dupont@mail.com',
       estEtudiant: false,
-      payeALAnnee: false,
+      payeALAnnee: false
     }
   })
   describe(`avec un nom, un sexe, une date de naissance, une adresse mail et un boolean indiquant si le client est étudiant`, () => {
@@ -135,7 +136,7 @@ describe('DOMAINE | Client', () => {
     const propsAbonnement: IPropsAbonnement = {
       reference: 'operation_ete_2020',
       nom: `Opération corps d'été`,
-      prixMensuel: 45,
+      prixMensuel: 45
     }
     describe(`qui paye au mois et qui n'est pas étudiant`, () => {
       it(`associe un abonnement avec le prix de base de l'abonnement, sa référence et son nom`, () => {
@@ -145,7 +146,7 @@ describe('DOMAINE | Client', () => {
         const abonnementAssocieAttendu = {
           reference: 'operation_ete_2020',
           nom: `Opération corps d'été`,
-          prix: 45,
+          prix: 45
         }
         expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
       })
@@ -192,7 +193,7 @@ describe('DOMAINE | Client', () => {
           nom: `Opération corps d'été`,
           prix:
             (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 -
-            (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 * 0.2,
+            (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 * 0.2
         }
         expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
       })

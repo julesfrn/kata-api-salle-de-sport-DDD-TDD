@@ -1,4 +1,5 @@
 import ObjetValeur from '../ObjetValeur'
+
 import ErreurPayeALAnneeRequis from './erreurs/ErreurPayeALAnneeRequis'
 
 export default class PayeALAnnee extends ObjetValeur {
