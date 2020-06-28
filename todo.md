@@ -1,3 +1,2 @@
-- renommer Abonnement en Formule
 - remonter tous les tests abonnement au niveau du use-case
 - creer le use case AjouterUnClient
