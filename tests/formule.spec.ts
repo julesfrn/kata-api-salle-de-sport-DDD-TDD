@@ -1,29 +1,29 @@
 import { expect } from 'chai'
 
-import Abonnement, { IPropsAbonnement } from '../api/domaine/entitees/Abonnement'
+import Formule, { IPropsFormule } from '../api/domaine/entitees/Formule'
 import ErreurDomaine from '../api/domaine/ErreurDomaine'
-import CreerUnAbonnement from '../api/CreerUnAbonnement'
-import AbonnementRepository from '../api/infrastructure/AbonnementRepository'
+import CreerUneFormule from '../api/CreerUneFormule'
+import FormuleRepository from '../api/infrastructure/FormuleRepository'
 
-describe('DOMAINE | Abonnement', () => {
+describe('DOMAINE | Formule', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let abonnement: Abonnement | undefined
+  let formule: Formule | undefined
   let erreurDomaine: ErreurDomaine | undefined
-  let propsAbonnement: IPropsAbonnement
-  const abonnementRepository = new AbonnementRepository()
+  let propsFormule: IPropsFormule
+  const formuleRepository = new FormuleRepository()
   beforeEach(() => {
     erreurDomaine = undefined
-    propsAbonnement = {
+    propsFormule = {
       reference: 'operation_ete_2020',
       nom: `Opération corps d'été`,
       prixMensuel: 45
     }
   })
   describe(`avec une référence, un nom, et un prix mensuel`, () => {
-    it('instancie le nouvel abonnement', () => {
+    it('créer une nouvelle formule', () => {
       try {
-        const creerUnAbonnement = new CreerUnAbonnement(abonnementRepository)
-        creerUnAbonnement.execute(propsAbonnement)
+        const creerUneFormule = new CreerUneFormule(formuleRepository)
+        creerUneFormule.execute(propsFormule)
       } catch (err) {
         erreurDomaine = err
       }
@@ -32,20 +32,20 @@ describe('DOMAINE | Abonnement', () => {
   })
   describe(`sans référence`, () => {
     it('renvoie une erreur: référence requise', () => {
-      delete propsAbonnement.reference
+      delete propsFormule.reference
       try {
-        abonnement = new Abonnement(propsAbonnement)
+        formule = new Formule(propsFormule)
       } catch (err) {
         erreurDomaine = err
       }
-      expect(erreurDomaine?.message).to.eq(`Une référence d'abonnement est requise`)
+      expect(erreurDomaine?.message).to.eq(`Une référence de formule est requise`)
     })
   })
   describe(`sans nom`, () => {
     it('renvoie une erreur: nom requis', () => {
-      delete propsAbonnement.nom
+      delete propsFormule.nom
       try {
-        abonnement = new Abonnement(propsAbonnement)
+        formule = new Formule(propsFormule)
       } catch (err) {
         erreurDomaine = err
       }
@@ -54,9 +54,9 @@ describe('DOMAINE | Abonnement', () => {
   })
   describe('sans prix mensuel', () => {
     it('renvoie une erreur: prix mensuel requis', () => {
-      delete propsAbonnement.prixMensuel
+      delete propsFormule.prixMensuel
       try {
-        abonnement = new Abonnement(propsAbonnement)
+        formule = new Formule(propsFormule)
       } catch (err) {
         erreurDomaine = err
       }
@@ -65,9 +65,9 @@ describe('DOMAINE | Abonnement', () => {
   })
   describe(`avec un prix mensuel inférieur à 0`, () => {
     it('renvoie une erreur: prix mensuel invalide', () => {
-      propsAbonnement.prixMensuel = -10
+      propsFormule.prixMensuel = -10
       try {
-        abonnement = new Abonnement(propsAbonnement)
+        formule = new Formule(propsFormule)
       } catch (err) {
         erreurDomaine = err
       }
@@ -77,22 +77,22 @@ describe('DOMAINE | Abonnement', () => {
   describe(`avec un prix mensuel qui n'est pas un nombre`, () => {
     it('renvoie une erreur: prix mensuel invalide', () => {
       // @ts-ignore
-      propsAbonnement.prixMensuel = '10'
+      propsFormule.prixMensuel = '10'
       try {
-        abonnement = new Abonnement(propsAbonnement)
+        formule = new Formule(propsFormule)
       } catch (err) {
         erreurDomaine = err
       }
       expect(erreurDomaine?.message).to.eq('Un prix mensuel doit être un nombre supérieur ou égal à 0')
     })
   })
-  it('je ne peux pas créer un abonnement avec une référence qui existe déjà', () => {
+  it('je ne peux pas créer une formule avec une référence qui existe déjà', () => {
     let erreur = null
     const referenceDejaExistante = 'reference'
-    propsAbonnement.reference = referenceDejaExistante
+    propsFormule.reference = referenceDejaExistante
     try {
-      const creerUnAbonnement = new CreerUnAbonnement(abonnementRepository)
-      creerUnAbonnement.execute(propsAbonnement)
+      const creerUneFormule = new CreerUneFormule(formuleRepository)
+      creerUneFormule.execute(propsFormule)
     } catch (err) {
       erreur = err
     }

@@ -5,13 +5,14 @@ import AdresseMail from '../objet-valeur/adresse-mail/AdresseMail'
 import EstEtudiant from '../objet-valeur/est-etudiant/EstEtudiant'
 import PayeALAnnee from '../objet-valeur/paye-a-l-annee/PayeALAnnee'
 
-import Abonnement from './Abonnement'
+import Formule from './Formule'
 
 export interface IAbonnementClient {
   reference?: string
   nom?: string
   prix?: number
 }
+
 export interface IPropsClient {
   nom: string
   sexe: string
@@ -41,10 +42,10 @@ export default class Client {
     this.abonnement = props.abonnement || {}
   }
 
-  associerAbonnement(abonnement: Abonnement) {
-    const reference = abonnement.reference.valeur
-    const nom = abonnement.nom.valeur
-    const prix = abonnement.recupererLePrixPourUnClientQui(this.estEtudiant.valeur, this.payeALAnnee.valeur)
+  associerFormule(formule: Formule) {
+    const reference = formule.reference.valeur
+    const nom = formule.nom.valeur
+    const prix = formule.recupererLePrixPourUnClientQui(this.estEtudiant.valeur, this.payeALAnnee.valeur)
     this.abonnement = { reference, nom, prix }
   }
 }

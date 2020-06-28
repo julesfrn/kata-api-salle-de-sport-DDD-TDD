@@ -2,7 +2,7 @@ import { expect } from 'chai'
 
 import Client, { IPropsClient } from '../api/domaine/entitees/Client'
 import ErreurDomaine from '../api/domaine/ErreurDomaine'
-import Abonnement, { IPropsAbonnement } from '../api/domaine/entitees/Abonnement'
+import Formule, { IPropsFormule } from '../api/domaine/entitees/Formule'
 
 describe('DOMAINE | Client', () => {
   let client: Client | undefined
@@ -131,18 +131,18 @@ describe('DOMAINE | Client', () => {
       expect(erreurDomaine?.message).to.eq(`Il est requis d'indiquer si le client paye à l'année ou non`)
     })
   })
-  describe('associer un abonnement à un client', () => {
-    let abonnement: Abonnement
-    const propsAbonnement: IPropsAbonnement = {
+  describe('associer une formule à un client', () => {
+    let formule: Formule
+    const propsFormule: IPropsFormule = {
       reference: 'operation_ete_2020',
       nom: `Opération corps d'été`,
       prixMensuel: 45
     }
     describe(`qui paye au mois et qui n'est pas étudiant`, () => {
-      it(`associe un abonnement avec le prix de base de l'abonnement, sa référence et son nom`, () => {
+      it(`associe une formule avec le prix de base de la formule, sa référence et son nom`, () => {
         client = new Client(propsClient)
-        abonnement = new Abonnement(propsAbonnement)
-        client.associerAbonnement(abonnement)
+        formule = new Formule(propsFormule)
+        client.associerFormule(formule)
         const abonnementAssocieAttendu = {
           reference: 'operation_ete_2020',
           nom: `Opération corps d'été`,
@@ -152,48 +152,48 @@ describe('DOMAINE | Client', () => {
       })
     })
     describe(`qui paye à l'année et qui n'est pas étudiant`, () => {
-      it('associe un abonnement avec une réduction de 30% sur le prix mensuel multiplié par 12, sa référence et son nom', () => {
+      it('associe une formule avec une réduction de 30% sur le prix mensuel multiplié par 12, sa référence et son nom', () => {
         propsClient.payeALAnnee = true
         propsClient.estEtudiant = false
         client = new Client(propsClient)
-        abonnement = new Abonnement(propsAbonnement)
-        client.associerAbonnement(abonnement)
+        formule = new Formule(propsFormule)
+        client.associerFormule(formule)
         const abonnementAssocieAttendu = {
           reference: 'operation_ete_2020',
           nom: `Opération corps d'été`,
-          prix: (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12
+          prix: (propsFormule.prixMensuel - propsFormule.prixMensuel * 0.3) * 12
         }
         expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
       })
     })
     describe(`qui paye au mois et qui est étudiant`, () => {
-      it('associe un abonnement avec une réduction de 20% sur le prix, sa référence et son nom', () => {
+      it('associe une formule avec une réduction de 20% sur le prix, sa référence et son nom', () => {
         propsClient.payeALAnnee = false
         propsClient.estEtudiant = true
         client = new Client(propsClient)
-        abonnement = new Abonnement(propsAbonnement)
-        client.associerAbonnement(abonnement)
+        formule = new Formule(propsFormule)
+        client.associerFormule(formule)
         const abonnementAssocieAttendu = {
           reference: 'operation_ete_2020',
           nom: `Opération corps d'été`,
-          prix: propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.2
+          prix: propsFormule.prixMensuel - propsFormule.prixMensuel * 0.2
         }
         expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
       })
     })
     describe(`qui paye a l'annee et qui est étudiant`, () => {
-      it('associe un abonnement avec une réduction de 30% sur le prix mensuel multiplié par 12 puis une réduction de 20% sur ce prix total, sa référence et son nom', () => {
+      it('associe une formule avec une réduction de 30% sur le prix mensuel multiplié par 12 puis une réduction de 20% sur ce prix total, sa référence et son nom', () => {
         propsClient.payeALAnnee = true
         propsClient.estEtudiant = true
         client = new Client(propsClient)
-        abonnement = new Abonnement(propsAbonnement)
-        client.associerAbonnement(abonnement)
+        formule = new Formule(propsFormule)
+        client.associerFormule(formule)
         const abonnementAssocieAttendu = {
           reference: 'operation_ete_2020',
           nom: `Opération corps d'été`,
           prix:
-            (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 -
-            (propsAbonnement.prixMensuel - propsAbonnement.prixMensuel * 0.3) * 12 * 0.2
+            (propsFormule.prixMensuel - propsFormule.prixMensuel * 0.3) * 12 -
+            (propsFormule.prixMensuel - propsFormule.prixMensuel * 0.3) * 12 * 0.2
         }
         expect(client.abonnement).to.deep.eq(abonnementAssocieAttendu)
       })

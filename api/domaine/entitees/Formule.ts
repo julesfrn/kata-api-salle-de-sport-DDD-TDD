@@ -1,20 +1,20 @@
-import ReferenceAbonnement from '../objet-valeur/reference-abonnement/ReferenceAbonnement'
+import ReferenceFormule from '../objet-valeur/reference-formule/ReferenceFormule'
 import Nom from '../objet-valeur/nom/Nom'
 import PrixMensuel from '../objet-valeur/prix-mensuel/PrixMensuel'
 
-export interface IPropsAbonnement {
+export interface IPropsFormule {
   reference: string
   nom: string
   prixMensuel: number
 }
 
-export default class Abonnement {
-  public readonly reference: ReferenceAbonnement
+export default class Formule {
+  public readonly reference: ReferenceFormule
   public readonly nom: Nom
   public prixMensuel: PrixMensuel
 
-  constructor(props: IPropsAbonnement) {
-    this.reference = new ReferenceAbonnement(props.reference)
+  constructor(props: IPropsFormule) {
+    this.reference = new ReferenceFormule(props.reference)
     this.nom = new Nom(props.nom)
     this.prixMensuel = new PrixMensuel(props.prixMensuel)
   }
