@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@shopify/eslint-plugin": "^36.0.2",
+    "@shopify/eslint-plugin": "^42.1.0",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
